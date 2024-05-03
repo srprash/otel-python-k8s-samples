@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-python: "true"
+      labels:
+        app: "flask-app"
+    spec:
+      containers:
+        - image: "flask-app:latest"
+          name: flask-app
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
+              protocol: TCP
+          env:
+            - name: OTEL_TRACES_EXPORTER
+              value: "console"
+            - name: OTEL_METRICS_EXPORTER
+              value: "none"
+            - name: OTEL_LOGS_EXPORTER
+              value: none
+            - name: OTEL_PYTHON_LOG_LEVEL
+              value: debug

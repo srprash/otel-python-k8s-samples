@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-app
+  template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-python: "true"
+      labels:
+        app: "django-app"
+    spec:
+      containers:
+        - image: "django-app:latest"
+          name: django-app
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+              hostPort: 8000
+              protocol: TCP
+          env:
+            - name: PYTHONPATH
+              value: "/app"
+            # - name: DJANGO_SETTINGS_MODULE
+            #   value: "djangoApp.settings"
+            - name: OTEL_TRACES_EXPORTER
+              value: "console"
+            - name: OTEL_METRICS_EXPORTER
+              value: "none"
+            - name: OTEL_LOGS_EXPORTER
+              value: none
+            - name: OTEL_PYTHON_LOG_LEVEL
+              value: debug
