@@ -23,8 +23,8 @@ spec:
               hostPort: 8000
               protocol: TCP
           env:
-            - name: PYTHONPATH
-              value: "/app"
+            # - name: PYTHONPATH
+            #   value: "/app"
             # - name: DJANGO_SETTINGS_MODULE
             #   value: "djangoApp.settings"
             - name: OTEL_TRACES_EXPORTER

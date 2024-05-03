@@ -21,7 +21,7 @@ EXPOSE 8000
 # CMD ["opentelemetry-instrument", "python", "manage.py", "runserver", "0.0.0.0:8000", "--noreload"]
 
 # when using k8s operator for instrumentation
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000", "--noreload"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000", "--noreload"]
 
 # when using gunicorn
-CMD ["gunicorn", "djangoApp.wsgi:application", "--bind", "0.0.0.0:8000"]
+# CMD ["gunicorn", "djangoApp.wsgi:application", "--bind", "0.0.0.0:8000"]
